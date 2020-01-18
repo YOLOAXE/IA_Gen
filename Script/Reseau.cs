@@ -5,13 +5,13 @@ using UnityEngine;
 [System.Serializable]
 public class NeuronesCouche
 {
-    public float[] Perceptron = new float[25];
-    public float[,] Poids = new float[25,25];
+    public float[] Perceptron = new float[50];
+    public float[,] Poids = new float[50,50];
 }
 
 public class Reseau : MonoBehaviour
 {
-    public NeuronesCouche[] HidenNeurone = new NeuronesCouche[6];
+    public NeuronesCouche[] HidenNeurone = new NeuronesCouche[5];
     [SerializeField] private RaycastHit[] hit = new RaycastHit[6];
     [SerializeField] private GameObject Objectif = null;
     private Vector3[] VD = {Vector3.up,Vector3.down,Vector3.left,Vector3.right,Vector3.forward,Vector3.back};
@@ -25,9 +25,8 @@ public class Reseau : MonoBehaviour
     {
         for (int i = 0; i < HidenNeurone.Length; i++)
         {
-            HidenNeurone[i].Perceptron = new float[25];
+            HidenNeurone[i].Perceptron = new float[50];
         }
-        //RandomizeAllPoids();
         Objectif = GameObject.FindWithTag("Drapeau");
         rb = GetComponent<Rigidbody>();
     }
@@ -69,15 +68,14 @@ public class Reseau : MonoBehaviour
     {
         int i = 0,j = 0,k = 0;
         float result = 0;
-        for(i = 0; i < 5;i++)
+        for(i = 0; i < HidenNeurone.Length-1;i++)
         {
-            for(j = 0; j < 25;j++)
+            for(j = 0; j < 50;j++)
             {
                 result = 0;
-                for(k = 0; k < 25;k++)
+                for(k = 0; k < 50;k++)
                 {
                    result += HidenNeurone[i].Poids[k,j] * HidenNeurone[i].Perceptron[k];  
-                   //Debug.Log(i + " " + j + " " + k);
                 }
                 HidenNeurone[i+1].Perceptron[j] = CalculeLogistique(result);
             }
@@ -102,22 +100,10 @@ public class Reseau : MonoBehaviour
 
     void AplyValue()
     {
-        if(HidenNeurone[HidenNeurone.Length-1].Perceptron[0] > 0.5f)
-        {
-            rb.AddForce(transform.forward * 400 * Time.deltaTime);
-        }
-        if(HidenNeurone[HidenNeurone.Length-1].Perceptron[1] > 0.5f)
-        {
-            rb.AddForce(-transform.forward * 400 * Time.deltaTime);
-        }
-        if(HidenNeurone[HidenNeurone.Length-1].Perceptron[2] > 0.5f)
-        {
-            rb.AddForce(-transform.right * 400 * Time.deltaTime);
-        }
-        if(HidenNeurone[HidenNeurone.Length-1].Perceptron[3] > 0.5f)
-        {
-            rb.AddForce(transform.right * 400 * Time.deltaTime);
-        }
+        rb.AddForce(transform.forward * (400 * HidenNeurone[HidenNeurone.Length-1].Perceptron[0]) * Time.deltaTime);
+        rb.AddForce(transform.forward * (-400 * HidenNeurone[HidenNeurone.Length-1].Perceptron[1]) * Time.deltaTime);
+        rb.AddForce(transform.right * (400 * HidenNeurone[HidenNeurone.Length-1].Perceptron[2]) * Time.deltaTime);
+        rb.AddForce(transform.right * (-400 * HidenNeurone[HidenNeurone.Length-1].Perceptron[3]) * Time.deltaTime);
         transform.eulerAngles = new Vector3(transform.eulerAngles.x,HidenNeurone[HidenNeurone.Length-1].Perceptron[4] * 180,transform.eulerAngles.z);
     }
 

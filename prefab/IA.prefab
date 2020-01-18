@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 8020224749143239930}
   - component: {fileID: 3522447444522799841}
   - component: {fileID: 1518368219606053976}
-  - component: {fileID: 5688725621876985485}
+  - component: {fileID: 5278636221713427952}
   m_Layer: 8
   m_Name: IA
   m_TagString: Untagged
@@ -190,7 +190,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &5688725621876985485
+--- !u!114 &5278636221713427952
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,7 +229,6 @@ MonoBehaviour:
     - 0
     - 0
     - 0
-  - Perceptron:
     - 0
     - 0
     - 0
@@ -281,7 +280,6 @@ MonoBehaviour:
     - 0
     - 0
     - 0
-  - Perceptron:
     - 0
     - 0
     - 0
@@ -333,7 +331,108 @@ MonoBehaviour:
     - 0
     - 0
     - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
   - Perceptron:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+  - Perceptron:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
     - 0
     - 0
     - 0
@@ -360,6 +459,7 @@ MonoBehaviour:
     - 0
     - 0
   Objectif: {fileID: 0}
+  activation: 0
 --- !u!1 &3893468611539015276
 GameObject:
   m_ObjectHideFlags: 0
