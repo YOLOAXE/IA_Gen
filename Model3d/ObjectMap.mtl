@@ -1,0 +1,8 @@
+newmtl BackGround
+Kd 0 0.5754717 0.1610353
+d 1
+
+newmtl Obstacle
+Kd 1 0 0
+d 1
+
