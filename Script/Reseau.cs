@@ -12,18 +12,19 @@ public class NeuronesCouche
 public class Reseau : MonoBehaviour
 {
     public NeuronesCouche[] HidenNeurone = new NeuronesCouche[5];
-    [SerializeField] private RaycastHit[] hit = new RaycastHit[6];
+    [SerializeField] private RaycastHit[] hit = new RaycastHit[5];
     [SerializeField] private GameObject Objectif = null;
-    private Vector3[] VD = {Vector3.up,Vector3.down,Vector3.left,Vector3.right,Vector3.forward,Vector3.back};
+    private Vector3[] VD = {Vector3.down,Vector3.left,Vector3.right,Vector3.forward,Vector3.back};
 
     private Rigidbody rb = null;
     private int iDist =  0;
-
+    private int i = 0, j = 0, k = 0;
+    private float result = 0;
     public bool activation = false;
 
     void Start()
     {
-        for (int i = 0; i < HidenNeurone.Length; i++)
+        for (i = 0; i < HidenNeurone.Length; i++)
         {
             HidenNeurone[i].Perceptron = new float[50];
         }
@@ -51,7 +52,6 @@ public class Reseau : MonoBehaviour
 
     public void RandomizeAllPoids()
     {
-        int i = 0,j = 0,k = 0;
         for(i = 0; i < HidenNeurone.Length-1;i++)
         {
             for(j = 0; j < HidenNeurone[i].Perceptron.Length;j++)
@@ -66,8 +66,6 @@ public class Reseau : MonoBehaviour
 
     void Propagation()
     {
-        int i = 0,j = 0,k = 0;
-        float result = 0;
         for(i = 0; i < HidenNeurone.Length-1;i++)
         {
             for(j = 0; j < 50;j++)
@@ -77,7 +75,7 @@ public class Reseau : MonoBehaviour
                 {
                    result += HidenNeurone[i].Poids[k,j] * HidenNeurone[i].Perceptron[k];  
                 }
-                HidenNeurone[i+1].Perceptron[j] = CalculeLogistique(result);
+                HidenNeurone[i+1].Perceptron[j] = 1/(1+Mathf.Exp(result));// logistique
             }
         }
     }
@@ -89,13 +87,22 @@ public class Reseau : MonoBehaviour
            Physics.Raycast(transform.position, transform.TransformDirection(VD[iDist]), out hit[iDist]);
            HidenNeurone[0].Perceptron[iDist] = hit[iDist].distance;
         }
-        HidenNeurone[0].Perceptron[6] = transform.eulerAngles.y/180;
-        HidenNeurone[0].Perceptron[7] = transform.position.x;
-        HidenNeurone[0].Perceptron[8] = transform.position.y;
-        HidenNeurone[0].Perceptron[9] = transform.position.z;
-        HidenNeurone[0].Perceptron[10] = Objectif.transform.position.x;
-        HidenNeurone[0].Perceptron[11] = Objectif.transform.position.y;
-        HidenNeurone[0].Perceptron[12] = Objectif.transform.position.z;
+        HidenNeurone[0].Perceptron[6] = transform.rotation.x;
+        HidenNeurone[0].Perceptron[7] = transform.rotation.y;
+        HidenNeurone[0].Perceptron[8] = transform.rotation.z;
+        HidenNeurone[0].Perceptron[9] = transform.rotation.w;
+        HidenNeurone[0].Perceptron[10] = transform.position.x;
+        HidenNeurone[0].Perceptron[11] = transform.position.y;
+        HidenNeurone[0].Perceptron[12] = transform.position.z;
+        HidenNeurone[0].Perceptron[13] = Objectif.transform.position.x;
+        HidenNeurone[0].Perceptron[14] = Objectif.transform.position.y;
+        HidenNeurone[0].Perceptron[15] = Objectif.transform.position.z;
+        for(i = 1;i < 5;i++)
+        {
+            HidenNeurone[0].Perceptron[(16 + ((i-2) * 3))] = hit[i].normal.x;
+            HidenNeurone[0].Perceptron[(17 + ((i - 2) * 3))] = hit[i].normal.y;
+            HidenNeurone[0].Perceptron[(18 + ((i - 2) * 3))] = hit[i].normal.z;
+        }
     }
 
     void AplyValue()
@@ -104,11 +111,6 @@ public class Reseau : MonoBehaviour
         rb.AddForce(transform.forward * (-400 * HidenNeurone[HidenNeurone.Length-1].Perceptron[1]) * Time.deltaTime);
         rb.AddForce(transform.right * (400 * HidenNeurone[HidenNeurone.Length-1].Perceptron[2]) * Time.deltaTime);
         rb.AddForce(transform.right * (-400 * HidenNeurone[HidenNeurone.Length-1].Perceptron[3]) * Time.deltaTime);
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x,HidenNeurone[HidenNeurone.Length-1].Perceptron[4] * 180,transform.eulerAngles.z);
-    }
-
-    float CalculeLogistique(float result)
-    {
-        return 1/(1+Mathf.Exp(result));
+        transform.eulerAngles = new Vector3(0f,HidenNeurone[HidenNeurone.Length-1].Perceptron[4] * 180,0f);
     }
 }

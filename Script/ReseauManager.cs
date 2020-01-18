@@ -14,6 +14,7 @@ public class ReseauManager : MonoBehaviour
     [SerializeField] private GameObject IA = null;
     [SerializeField] private int Generation = 0;
     [SerializeField] private int nbIA = 100; //constante
+    [SerializeField] private int nbIASelectionne = 20; //constante
     [SerializeField] private float tempsGeneration = 15f;
     [SerializeField] private float TauxMutation = 0.1f;
     [SerializeField] private GameObject SpawnPoint = null;
@@ -55,7 +56,7 @@ public class ReseauManager : MonoBehaviour
             {
                 Dista.Add(Vector3.Distance(IAR[i].transform.position,Objectif.transform.position));// get position
             }
-            for(i = 0;i < Mathf.RoundToInt(nbIA*0.8f);i++)
+            for(i = 0;i < (nbIA - nbIASelectionne); i++)
             {
                 Distance = 0;
                 for(j = 0; j < IAR.Count;j++)
@@ -97,7 +98,7 @@ public class ReseauManager : MonoBehaviour
                     {
                         for(s = 0; s < 50; s++)
                         {
-                            IAR[i].GetComponent<Reseau>().HidenNeurone[j].Poids[k,s] = (((BRPoids[Random.Range(0,Mathf.RoundToInt(nbIA*0.2f)),j,k,s] + BRPoids[i%Mathf.RoundToInt(nbIA*0.2f),j,k,s])/2) + Random.Range(-TauxMutation,TauxMutation));
+                            IAR[i].GetComponent<Reseau>().HidenNeurone[j].Poids[k,s] = (((BRPoids[Random.Range(0, nbIASelectionne),j,k,s] + BRPoids[i%nbIASelectionne, j,k,s])/2) + Random.Range(-TauxMutation,TauxMutation));
                         }// distribut poids
                     }
                 }
