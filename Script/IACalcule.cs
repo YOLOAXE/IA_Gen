@@ -42,16 +42,22 @@ public class IACalcule : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             GetValueExo();
             Propagation();
             RetroPropagation();
+            MiseAjour();
             AplyValue();
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
+            indice = Random.Range(0, QestValide.Length);
             Propagation();
+            Debug.Log(QestValide[indice].entrer[0]);
+            Debug.Log(QestValide[indice].entrer[1]);
+            Debug.Log(QestValide[indice].Reponce[0]);
+            Debug.Log(HidenNeurone[HidenNeurone.Length - 1].Perceptron[0] * Divisseur);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -111,6 +117,17 @@ public class IACalcule : MonoBehaviour
         if(indice == QestValide.Length)
         {
             indice = 0;
+        }
+    }
+
+    void MiseAjour()
+    {
+        for (i = 0; i < HidenNeurone.Length - 1; i++)
+        {
+            for (j = 0; j < Ne; j++)
+            {
+                HidenNeurone[i].Poids[j, i] = HidenNeurone[i].Poids[j, i] + TauxDapprentissage * HidenNeurone[i].Perceptron[j] + HidenNeurone[i + 1].Delta[j];
+            }
         }
     }
 
