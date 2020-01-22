@@ -3416,7 +3416,7 @@ MonoBehaviour:
   IA: {fileID: 1518368219606053975, guid: b826ae80d40a6fd6397d831cb0b4f8d7, type: 3}
   Generation: 0
   nbIA: 300
-  nbIASelectionne: 4
+  nbIASelectionne: 2
   tempsGeneration: 15
   TauxMutation: 0.2
   SpawnPoint: {fileID: 23494818}
