@@ -24,7 +24,7 @@ public class IACalcule : MonoBehaviour
         {
             HidenNeurone[i].Perceptron = new float[Ne];
             HidenNeurone[i].Poids = new float[Ne, Ne];
-            HidenNeurone[i].Delta = new float[Ne];
+          //  HidenNeurone[i].Delta = new float[Ne];
         }
     }
 

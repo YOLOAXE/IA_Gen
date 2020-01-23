@@ -49,8 +49,8 @@ public class MathManager : MonoBehaviour
     {
         for(i = 0;i < IAR.Count;i++)
         {
-            IAF.Add = IAR.GetComponent<IACalcule>().H
-            IAM.Add = IAR[i];
+            //IAF.Add = IAR.GetComponent<IACalcule>().H
+            //IAM.Add = IAR[i];
         }
     }
 }
