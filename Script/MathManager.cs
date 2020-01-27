@@ -21,7 +21,7 @@ public class MathManager : MonoBehaviour
     [SerializeField] private float[,,] MeilleurePoids = new float[10, 50, 50];
     [SerializeField] private float[,] MeilleurePerceptron = new float[10, 50];
     [SerializeField] private float ScoreZeroMeilleur = 3000f;
-    [SerializeField] private float Mult = 3000f;
+    [SerializeField] private float Mult = 100f;
     [SerializeField] private float[] ScoreZero = new float[123];
     [SerializeField] private TextMeshProUGUI TxtGen = null;
     [SerializeField] private TextMeshProUGUI TauxDeReussite = null;
@@ -38,6 +38,7 @@ public class MathManager : MonoBehaviour
 
     private int i = 0, j = 0, k = 0, s = 0, de = 0,a = 0,b = 0,c = 0;
     private float result = 0;
+    private int tchange = 0;
 
     void Start()
     {
@@ -71,7 +72,7 @@ public class MathManager : MonoBehaviour
                     Propagation(j);
                     for (k = 0; k < Ne; k++)
                     {
-                         ScoreZero[j] += Mathf.Abs(HidenNeuronePerceptron[j, NBC - 1, k] - LesQuestions[i].Reponce[k]);
+                         ScoreZero[j] += Mathf.Abs(HidenNeuronePerceptron[j, NBC - 1, k] - (LesQuestions[i].Reponce[k] / Mult));
                     }
                 }
             }
@@ -97,6 +98,7 @@ public class MathManager : MonoBehaviour
                     }
                 }
                 ScoreZeroMeilleur = ScoreZero[s];
+                tchange = 0;
             }
             for (de = 0; de < NBNe; de++)
             {
@@ -106,13 +108,18 @@ public class MathManager : MonoBehaviour
                     {
                         for (k = 0; k < Ne; k++)
                         {
-                            HidenNeuronePoids[de, i, j, k] = MeilleurePoids[i, j, k] + Random.Range(-TauxMutation * (ScoreZeroMeilleur/100), TauxMutation * (ScoreZeroMeilleur / 100));
+                            HidenNeuronePoids[de, i, j, k] = MeilleurePoids[i, j, k] + Random.Range(-TauxMutation, TauxMutation);
                         }
                     }
                 }
             }
             Generation++;
+            tchange++;
             TxtGen.text = "Generation: " + Generation.ToString();
+            if(tchange > 20)
+            {
+                TauxMutation = TauxMutation * 0.95f;
+            }
         }
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -130,7 +137,7 @@ public class MathManager : MonoBehaviour
             {
                 if (k < textSortieValue.Length)
                 {
-                    textSortieValue[k].text = MeilleurePerceptron[NBC - 1, k].ToString("F5");
+                    textSortieValue[k].text = (MeilleurePerceptron[NBC - 1, k] * Mult).ToString("F5");
                 }
             }
         }
@@ -147,7 +154,7 @@ public class MathManager : MonoBehaviour
                 {
                     result += HidenNeuronePoids[num, a, b, c] * HidenNeuronePerceptron[num, a, c];
                 }
-                HidenNeuronePerceptron[num, a + 1, b] = 1 / (1 + Mathf.Exp(result));
+                HidenNeuronePerceptron[num, a + 1, b] = (1 / (1 + Mathf.Exp(result)));
             }
         }
     }
@@ -163,7 +170,7 @@ public class MathManager : MonoBehaviour
                 {
                     result += MeilleurePoids[a, b, c] * MeilleurePerceptron[a, c];
                 }
-                MeilleurePerceptron[a + 1, b] = 1 / (1 + Mathf.Exp(result));
+                MeilleurePerceptron[a + 1, b] = (1 / (1 + Mathf.Exp(result)));
             }
         }
     }
